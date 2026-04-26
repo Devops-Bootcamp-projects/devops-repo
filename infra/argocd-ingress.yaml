@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server-ingress
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    # Tell Traefik to talk to the pod via HTTP, even though the external connection is HTTPS
+    traefik.ingress.kubernetes.io/service.serversscheme: http
+spec:
+  ingressClassName: public 
+  tls:
+  - hosts:
+    - argocd.tundehammed.online
+    secretName: argocd-server-tls
+  rules:
+  - host: argocd.tundehammed.online
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 80 # Use port 80 for the internal HTTP traffic

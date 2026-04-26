@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: devops-project
+data:
+  NODE_ENV: "production"
+  # Backend config to match your Dockerfile and code
+  #FRONTEND_ORIGIN: "http://batubatundehome.online"
+  # Frontend config
+ # NEXT_PUBLIC_API_URL: "http://batubatundehome.online/api"
+  NEXT_PUBLIC_API_URL: /api
+  FRONTEND_ORIGIN: https://tundehammed.online
+  PORT: "3001"
