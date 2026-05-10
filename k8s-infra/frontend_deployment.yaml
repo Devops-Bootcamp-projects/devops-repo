@@ -15,7 +15,7 @@ spec:
       containers:
       - name: frontend
         # Using the version tag identified in the build pipeline
-        image: hammedbabatunde/devopsbootcamp-frontend:1.8
+        image: hammedbabatunde/devopsbootcamp-frontend:1.10
         ports:
         - containerPort: 3000
         envFrom:
