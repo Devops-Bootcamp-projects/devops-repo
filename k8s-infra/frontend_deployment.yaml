@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: frontend-sa
+  namespace: devops-project
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,9 +18,11 @@ spec:
       labels:
         app: frontend
     spec:
+      # Using a dedicated identity is better for security auditing
+      serviceAccountName: frontend-sa
       containers:
       - name: frontend
-        # Using the version tag identified in the build pipeline
+        # Ensure this is the 'fixed' image version!
         image: hammedbabatunde/devopsbootcamp-frontend:1.11
         ports:
         - containerPort: 3000
@@ -23,7 +31,7 @@ spec:
             name: app-config
         env:
         - name: PORT
-          value: "3000" # This forces the frontend back to 3000
+          value: "3000"
 ---
 apiVersion: v1
 kind: Service
