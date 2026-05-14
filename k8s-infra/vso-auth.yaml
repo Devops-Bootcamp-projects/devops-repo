@@ -8,6 +8,7 @@ spec:
   mount: kubernetes
   kubernetes:
     role: app-role # The role we configured earlier
+    serviceAccount: default
   vaultConnectionRef: default
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
