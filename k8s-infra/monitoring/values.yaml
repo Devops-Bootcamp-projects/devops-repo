@@ -1,0 +1,32 @@
+prometheus:
+  prometheusSpec:
+    retention: 2d
+    retentionSize: "5GB"
+    scrapeInterval: "30s"
+    # This allows Prometheus to find ServiceMonitors in any namespace
+    serviceMonitorSelectorNilUsesHelmValues: false
+    resources:
+      requests:
+        memory: "400Mi"
+      limits:
+        memory: "1Gi"
+    # FIXED: The correct way to request a Persistent Volume in this chart
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+
+grafana:
+  # ADDED: Link to your Vault-synced secret
+  admin:
+    existingSecret: "grafana-admin-credentials"
+    userKey: "admin-user"
+    passwordKey: "admin-password"
+  service:
+    type: NodePort 
+  persistence:
+    enabled: true
+    size: 2Gi
