@@ -1,0 +1,20 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: static-auth
+  namespace: devops-project
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: app-role # The role we configured earlier
+    serviceAccount: default
+  vaultConnectionRef: default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: default
+  namespace: devops-project
+spec:
+  address: http://vault.devops-project.svc.cluster.local:8200
