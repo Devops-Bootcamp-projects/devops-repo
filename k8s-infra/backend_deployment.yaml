@@ -21,11 +21,11 @@ spec:
         # 1. Enable Vault Agent Injection
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/role: 'app-role'
-        vault.hashicorp.com/agent-inject-secret-config: 'secrets/data/devops-project/app-secrets'
+        vault.hashicorp.com/agent-inject-secret-config: 'secrets/data/backend-secrets'
         
         # 2. Dynamically build the DATABASE_URL and exports
         vault.hashicorp.com/agent-inject-template-config: |
-          {{- with secret "secrets/data/devops-project/app-secrets" -}}
+          {{- with secret "secrets/data/backend-secrets" -}}
           export CLOUDINARY_CLOUD_NAME="{{ .Data.data.CLOUDINARY_CLOUD_NAME }}"
           export CLOUDINARY_API_KEY="{{ .Data.data.CLOUDINARY_API_KEY }}"
           export CLOUDINARY_API_SECRET="{{ .Data.data.CLOUDINARY_API_SECRET }}"
