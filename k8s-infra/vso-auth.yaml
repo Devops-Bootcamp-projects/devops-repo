@@ -9,6 +9,8 @@ spec:
   kubernetes:
     role: app-role # The role we configured earlier
     serviceAccount: default
+    audiences: 
+      - "https://kubernetes.default.svc"
   vaultConnectionRef: default
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
