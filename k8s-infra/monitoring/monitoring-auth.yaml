@@ -1,0 +1,24 @@
+# 1. The Bridge Connection
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-bridge
+  namespace: monitoring
+spec:
+  # This points to the Vault service in your other namespace
+  address: http://vault.devops-project.svc.cluster.local:8200
+
+---
+# 2. The Local Auth
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: static-auth
+  namespace: monitoring
+spec:
+  vaultConnectionRef: vault-bridge # Just the name as a string
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: app-role
+    serviceAccount: default

@@ -20,13 +20,29 @@ prometheus:
               storage: 5Gi
 
 grafana:
-  # ADDED: Link to your Vault-synced secret
   admin:
     existingSecret: "grafana-admin-credentials"
     userKey: "admin-user"
     passwordKey: "admin-password"
+  
+  # 1. ADDED: Grafana Ingress configuration matching your cert-manager rules
+  ingress:
+    enabled: true
+    ingressClassName: public
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      acme.cert-manager.io/http01-edit-in-place: "true"
+    hosts:
+      - grafana.tundehammed.online
+    path: /
+    tls:
+      - secretName: grafana-tundehammed-tls
+        hosts:
+          - grafana.tundehammed.online
+
+  # 2. CHANGED: Swapped from NodePort to ClusterIP
   service:
-    type: NodePort 
+    type: ClusterIP 
   persistence:
     enabled: true
     size: 2Gi
